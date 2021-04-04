@@ -5,6 +5,7 @@ import Objects.Bullet;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
+import core.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -15,8 +16,11 @@ import javafx.scene.input.MouseEvent;
  * Only reason I can think of to change this would be to adjust player speed
  * */
 public class Player extends GameObject {
-
+//singleton with power ups: fields with max health, health, speed, bullet
     private double speedMod;
+    private double health = 100.0;
+    private double damage = 10.0;
+    private boolean immune = false;
 
     Image playerImage = new Image("resources/man.png");
 
@@ -30,7 +34,46 @@ public class Player extends GameObject {
     }
 
     @Override
-    public void collisionCode(ID id) {
+    public void collisionCode(ID id, GameObject gameObj) {
+        if(id == ID.EnemyBullet){
+
+            health = health - damage;
+            System.out.println(health);
+            handler.removeObject(gameObj);//removes enemy bullet
+        }
+        if(id == ID.BasicEnemy && !immune){
+
+
+            health = health - damage;
+            System.out.println(health);
+            immune = true;
+
+        }
+        if(id == ID.Health){
+            handler.removeObject(gameObj);
+            health = health + 20;
+            if(health > 100){
+                health = 100;
+            }
+            System.out.println(health);
+        }
+        if(health <= 0){
+
+
+            System.exit(0);
+            //exits program
+            //https://www.delftstack.com/howto/java/java-end-program/#:~:text=To%20end%20a%20Java%20program,program%20that%20we%20are%20running.
+        }
+
+        playImmunity();
+    }
+    public void playImmunity(){
+
+        if(immune){
+
+            immune = false;
+
+        }
 
     }
 

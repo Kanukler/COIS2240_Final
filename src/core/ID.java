@@ -7,10 +7,14 @@ public enum ID {
     Player(),
 
     // --- ENEMIES --- //
-
+    BasicEnemy(),
+    SingleFireEnemy(),
+    BossEnemy(),
 
     // --- OTHER --- //
     Bullet(),
-
+    EnemyBullet(),
+    Health(),
+    Barrier(),
 
 }

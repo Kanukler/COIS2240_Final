@@ -17,9 +17,10 @@ public class Main extends Application {
         Launcher.scene = new Scene(root, 1000, 600, Color.SLATEGRAY);
 
 
-        primaryStage.setTitle("Hello World");
+        primaryStage.setTitle("xXX_UWU_XXx");
         primaryStage.setScene(Launcher.scene);
         primaryStage.setResizable(false);
+
 
 
 

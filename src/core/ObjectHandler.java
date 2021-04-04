@@ -24,10 +24,17 @@ public class ObjectHandler {
     /** This method contains a loop that checks the tick method of every object in the list and runs it
      * There shouldn't be any reason to modify it */
     public void tick() {
-
         for (int i = 0; i < object.size(); i++) {
-            collision(object.get(i));
-            object.get(i).tick();
+            try {
+
+                collision(object.get(i));
+
+                object.get(i).tick();
+
+
+            } catch (Exception e) {
+
+            }
         }
 
         render();
@@ -37,16 +44,18 @@ public class ObjectHandler {
     public void collision(GameObject temp){
         for(int i = 0; i < object.size(); i++){
                 if(temp.getBounds().intersects(object.get(i).getBounds()))
-                temp.collisionCode(object.get(i).getId());
+                    if(temp != object.get(i))
+                    temp.collisionCode(object.get(i).getId(), object.get(i));
+
             }
-        }
+    }
 
     public void render(){
         context.save();
 
         // !! These lines render the background, they can be replaced if a new class or method is made to
         // define the background. They're just a placeholder for now.
-        context.setFill(Color.PINK);
+            context.setFill(Color.PINK);
         context.fillRect(0,0,canvas.getWidth(),canvas.getHeight());
         // End of background space
 

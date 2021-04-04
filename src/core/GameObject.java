@@ -20,6 +20,8 @@ public abstract class GameObject {
     public GameObject() {
     }
 
+
+
     /** Constructor for visible objects. The image should be defined in the respective class */
     public GameObject(int posX, int posY, ObjectHandler handler) {
         this.position = new Point2D(posX, posY);
@@ -35,6 +37,8 @@ public abstract class GameObject {
         this.handler = handler;
     }
 
+
+
     /** This tick method is overridden and called every frame by the ObjectHandler. */
     public abstract void tick();
 
@@ -42,7 +46,7 @@ public abstract class GameObject {
      * This might not be the most effective way to do this, but it seemed like the cleanest to me,
      * since it means we don't have to constantly rewrite the same code in different places.
      * */
-    public abstract void collisionCode(ID id);
+    public abstract void collisionCode(ID id, GameObject gameObj);
 
     public Rectangle2D getBounds(){
         return new Rectangle2D(position.getX(), position.getY(), height, width);
@@ -85,5 +89,8 @@ public abstract class GameObject {
     public void setVelY(int velY) {
         this.velY = velY;
     }
+
+
+
 
 }
