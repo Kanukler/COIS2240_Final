@@ -42,7 +42,7 @@ public abstract class GameObject {
      * This might not be the most effective way to do this, but it seemed like the cleanest to me,
      * since it means we don't have to constantly rewrite the same code in different places.
      * */
-    public abstract void collisionCode(ID id);
+    public abstract void collisionCode(ID id, GameObject object);
 
     public Rectangle2D getBounds(){
         return new Rectangle2D(position.getX(), position.getY(), height, width);

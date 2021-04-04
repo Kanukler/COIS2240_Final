@@ -2,7 +2,6 @@ package Menus;
 
 
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 
@@ -46,7 +45,7 @@ public class MenuCont {
     @FXML
     private Button scoreBoard;
 
-    public void mainMenu(ActionEvent actionEvent) throws Exception {
+    public void mainMenu() throws Exception {
         returnToMainMenu.setDisable(true);
 
         launch.mainMenu();

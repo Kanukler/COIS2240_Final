@@ -10,10 +10,10 @@ public class Launcher {
     public static Scene scene;
 
     public void game() throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("../resources/sample.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("../resources/Game.fxml"));
         scene.setRoot(root);
 
-        Player.PlayerInput.newInput().setScene(scene);
+        Player.PlayerInput.getInput().setScene(scene);
     }
 
     public void score() throws  Exception{

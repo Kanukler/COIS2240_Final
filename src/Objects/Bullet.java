@@ -8,17 +8,20 @@ import javafx.scene.image.Image;
 
 public class Bullet extends GameObject {
     GameObject player;
-    Image bulletImage = new Image("resources/man.png");
+    Image bulletImage = new Image("resources/bullet.png");
 
     public Bullet(ObjectHandler handler, double velX, double velY) {
         this.handler = handler;
         this.player = handler.findPlayer();
-        this.position = player.getPosition();
+
         this.setId(ID.Bullet);
 
         this.setImage(bulletImage);
         width = (int) bulletImage.getWidth();
         height = (int) bulletImage.getHeight();
+
+        this.position = new Point2D(player.getPosition().getX() + (double)(player.getWidth() - this.width)/2,
+                player.getPosition().getY() + (double) (player.getHeight() - this.height)/2 );
 
         this.velX = velX;
         this.velY = velY;
@@ -30,7 +33,7 @@ public class Bullet extends GameObject {
     }
 
     @Override
-    public void collisionCode(ID id) {
+    public void collisionCode(ID id, GameObject object) {
 
     }
 

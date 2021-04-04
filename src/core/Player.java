@@ -30,7 +30,7 @@ public class Player extends GameObject {
     }
 
     @Override
-    public void collisionCode(ID id) {
+    public void collisionCode(ID id, GameObject object) {
 
     }
 
@@ -60,7 +60,7 @@ public class Player extends GameObject {
     private int timer = 0;
 
     public void playerInput(){
-        PlayerInput e = PlayerInput.newInput();
+        PlayerInput e = PlayerInput.getInput();
         e.press();
 
         // Player Movement
@@ -116,7 +116,7 @@ public class Player extends GameObject {
         private static Scene scene;
         public static double mouseX, mouseY;
 
-        public static PlayerInput newInput(){
+        public static PlayerInput getInput(){
             return new PlayerInput();
         }
         public PlayerInput() {

@@ -26,8 +26,11 @@ public class ObjectHandler {
     public void tick() {
 
         for (int i = 0; i < object.size(); i++) {
+            try{
             collision(object.get(i));
-            object.get(i).tick();
+            object.get(i).tick();}
+            catch (Exception ignored){
+            }
         }
 
         render();
@@ -36,9 +39,12 @@ public class ObjectHandler {
 
     public void collision(GameObject temp){
         for(int i = 0; i < object.size(); i++){
-                if(temp.getBounds().intersects(object.get(i).getBounds()))
-                temp.collisionCode(object.get(i).getId());
+                if(temp.getBounds().intersects(object.get(i).getBounds())) {
+                    if (temp != object.get(i))
+                        temp.collisionCode(object.get(i).getId(), object.get(i));
+                }
             }
+
         }
 
     public void render(){
