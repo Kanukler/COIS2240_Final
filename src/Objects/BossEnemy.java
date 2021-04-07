@@ -1,5 +1,4 @@
 package Objects;
-
 import core.GameObject;
 import core.ID;
 import core.ObjectHandler;
@@ -7,8 +6,10 @@ import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 
 public class BossEnemy extends GameObject {
-    private final double bossSpeed;
+    private double bossSpeed;
+    private int bossSpeedMod = 0;
     private GameObject player;
+
     private double health = 500;
 
     private int charge = 300, fireRate = 5;
@@ -20,6 +21,11 @@ public class BossEnemy extends GameObject {
     Image bossFire2 = new Image("resources/BossF2.png");
     Image bossFire3 = new Image("resources/BossF3.png");
 
+    private int endChangeDirection = 0;
+    private  boolean enemyCollide = false;
+    Image BossImage = new Image("resources/Boss.png");//just for an example not the actual image of the boss enemy
+
+
     public BossEnemy(int posX, int posY, ObjectHandler handler){
         super(posX, posY, handler);
         this.setId(ID.BossEnemy);
@@ -27,12 +33,17 @@ public class BossEnemy extends GameObject {
         width = (int) bossImage.getWidth();
         height = (int) bossImage.getHeight();
         this.player = handler.findPlayer();
+
         this.bossSpeed = 1;//I just want a slower enemy
     }
 
     @Override
     public void tick() {
-        move();
+        endChangeDirection++;
+
+        if(!enemyCollide || endChangeDirection >= 15){
+            move();//if enemy is not collided or change direction counter is greater than 15 then move normally
+        }
         fire();
         position = new Point2D(position.getX() + velX*bossSpeed, position.getY() + velY*bossSpeed);
         //unit vector directing to the player
@@ -44,36 +55,76 @@ public class BossEnemy extends GameObject {
     public void collisionCode(ID id, GameObject gameObj) {
         if(id == ID.Bullet){
             health = health - 10;
-            System.out.println("u hit the boss");
-            handler.removeObject(gameObj);
+            handler.removeObject(gameObj);//remove the bullet
             if(health <= 0){
-                System.out.println("u killed him :(");
-                handler.removeObject( this);
+
+                handler.removeObject( this);//Boss is dead remove it from the game
             }
         }
         if(id == ID.Barrier){
-            System.out.println("Barrier");//if the enemy moves into a barrier then change direction
+            endChangeDirection = 0;
+            enemyCollide = true;
+            changeDirectionBoss();
+            //if the enemy moves into a barrier then change direction
+        }
+        if(id == ID.Player){
 
+            bossSpeed = 0;
+            bossSpeedMod = 0;
+
+        }
+        if(id == ID.BasicEnemy){
+            endChangeDirection = 0;
+            enemyCollide = true;
+            changeDirectionBoss();
+            //change direction from colliding with the enemy
+        }
+        if(id == ID.SingleFireEnemy){
+            endChangeDirection = 0;
+            enemyCollide = true;
+            changeDirectionBoss();
+            //change direction from colliding with the enemy
+        }
+        if(id == ID.BossEnemy){
+            endChangeDirection = 0;
+            enemyCollide = true;
+            changeDirectionBoss();
+            //change direction from colliding with the enemy
         }
 
     }
 
+
+
+
     public void move(){
+        double mdX = player.getPosition().getX() - this.getPosition().getX();
+        double mdY = player.getPosition().getY() - this.getPosition().getY();
+        double mHyp = Math.sqrt(mdX * mdX + mdY * mdY);
+        //Use mnx and mny to modify velocity direction.
+        double mux = mdX / mHyp;
+        double muy = mdY / mHyp;
+        velX = mux*bossSpeed;
+        velY = muy*bossSpeed;
 
-        if(position.getX() < player.getPosition().getX() - ran1){
-            velX = 0;
+        if(bossSpeedMod <= 360){
+            bossSpeed = 1;
+            bossSpeedMod++;
         }
-        if(position.getX() > player.getPosition().getX() - ran1){
-            velX = - 0;
+        if(bossSpeedMod > 360 && bossSpeedMod < 420){
+            bossSpeed = 0;
+            bossSpeedMod++;
         }
 
-        if(position.getY() < player.getPosition().getY() - ran1){
-            velY = 0;
+        if(bossSpeedMod >= 420){
+            bossSpeed = 2;
+            bossSpeedMod++;
         }
-        if(position.getY() > player.getPosition().getY() - ran1){
-            velY = - 0;
+        if(bossSpeedMod > 540 ){
+            bossSpeedMod = 0;
+
+
         }
-        // if enemy collides with the barrier then adjust the movement
 
 
     }
@@ -118,38 +169,44 @@ public class BossEnemy extends GameObject {
 
         }
 
-        //handler.addObject(new Bullet(this.handler, bulletVel*position.getX(), bulletVel*position.getY()));
-        //ask Thompson about the math for the vector
 
     }
 
-    private void firePattern1(){
-        bulletVel = 5;
-        ran1 = (int)(Math.random()*this.getPosition().getX());
-        ran2 = (int)(Math.random()*this.getPosition().getY());
-        double coin1 = Math.random();
-        double coin2 = Math.random();
-        //System.out.println(coin);
-        //https://stackoverflow.com/questions/8610635/how-do-you-use-math-random-to-generate-random-ints/8610691
-        if(coin1 <= 0.5){
-            ran1 = -ran1;
-        }
-        if(coin2 <= 0.5){
-            ran2 = -ran2;
-        }
+        private void firePattern1(){
+            bulletVel = 5;
+            ran1 = (int)(Math.random()*this.getPosition().getX());
+            ran2 = (int)(Math.random()*this.getPosition().getY());
+            double coin1 = Math.random();
+            double coin2 = Math.random();
+            //System.out.println(coin);
+            //https://stackoverflow.com/questions/8610635/how-do-you-use-math-random-to-generate-random-ints/8610691
+            if(coin1 <= 0.5){
+                ran1 = -ran1;
+            }
+            if(coin2 <= 0.5){
+                ran2 = -ran2;
+            }
 
-        // Calculates the unit vector to allow for consistent bullet velocity.
-        // Note that since PlayerInput is static, this code can be copied anywhere it's needed.
-        double mdX = ran1;
-        double mdY = ran2;
-        double mHyp = Math.sqrt(mdX * mdX + mdY * mdY);
-        //Use mnx and mny to modify velocity direction.
-        double mux = mdX / mHyp;
-        double muy = mdY / mHyp;
+            // Calculates the unit vector to allow for consistent bullet velocity.
+            // Note that since PlayerInput is static, this code can be copied anywhere it's needed.
+            double mdX = ran1;
+            double mdY = ran2;
+            double mHyp = Math.sqrt(mdX * mdX + mdY * mdY);
+            //Use mnx and mny to modify velocity direction.
+            double mux = mdX / mHyp;
+            double muy = mdY / mHyp;
 
-        if(timer % 2 == 0) {
-            handler.addObject(new EnemyBullet(this.handler, bulletVel * mux, bulletVel * muy, this));
+
+            if(timer % 2 == 0) {
+                handler.addObject(new EnemyBullet(this.handler, bulletVel * mux, bulletVel * muy, this));
+            }
+
+
         }
+    public void changeDirectionBoss(){
+        velX = - velX;
+        velY = - velY;
+
     }
 
     private void firePattern2(){

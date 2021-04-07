@@ -7,8 +7,10 @@ import javafx.scene.image.Image;
 
 public class EnemyBullet extends GameObject {
     private GameObject firer;
+
     Image bulletImage = new Image("resources/EnemyBullet.png");
     int timer = 300;
+
 
     public EnemyBullet(core.ObjectHandler handler, double velX, double velY, GameObject firer){
         this.firer = firer;//to get the positions of the enemy that fired the bullet

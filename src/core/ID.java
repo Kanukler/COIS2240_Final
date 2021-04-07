@@ -11,10 +11,14 @@ public enum ID {
     SingleFireEnemy(),
     BossEnemy(),
 
-    // --- OTHER --- //
+    // --- BULLET --- //
     Bullet(),
     EnemyBullet(),
+    // --- UPGRADES --- //
     Health(),
+    FireRateUpgrade(),
+    SpeedUpgrade(),
+    // --- OTHER --- //
     Barrier(),
 
 }

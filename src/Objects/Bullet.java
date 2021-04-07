@@ -9,7 +9,9 @@ import javafx.scene.image.Image;
 public class Bullet extends GameObject {
     GameObject player;
     Image bulletImage = new Image("resources/bullet.png");
+
     int timer = 300;
+
 
     public Bullet(ObjectHandler handler, double velX, double velY) {
         this.handler = handler;

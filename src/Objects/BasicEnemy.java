@@ -9,7 +9,13 @@ public class BasicEnemy extends GameObject{
     private double basicSpeed;
     private GameObject player;
     private double health = 10.0;
+
     Image basicImage = new Image("resources/Enemy.png");
+
+
+    private  boolean enemyCollide = false;
+    private int endChangeDirection = 0;
+
 
     public BasicEnemy(int posX, int posY, ObjectHandler handler) {
         super(posX, posY, handler);
@@ -23,36 +29,54 @@ public class BasicEnemy extends GameObject{
 
     @Override
     public void tick() {
+        endChangeDirection++;
 
         move();
         position = new Point2D(position.getX() + velX, position.getY() + velY);//unit vector directing to the player
 
-    }
-
-    public void checkCollision() {
+        if(!enemyCollide || endChangeDirection >= 15){
+            move();//if enemy is not collided or change direction counter is greater than 15 then move normally
+        }
 
     }
 
     @Override
     public void collisionCode(ID id, GameObject gameObj) {
         if(id == ID.Bullet){
-            System.out.println("ouch");
+            //remove both objects since the bullet found its target and the basic enemy is dead
             handler.removeObject(gameObj);
             handler.removeObject( this);
 
         }
         if(id == ID.Barrier){
-            System.out.println("Barrier");//if the enemy moves into a barrier then change direction
-        }
-        if(id == ID.SingleFireEnemy){
+            endChangeDirection = 0;
+            enemyCollide = true;
             changeDirection();
+           //if the enemy moves into a barrier then change direction
         }
         if(id == ID.BasicEnemy){
+            endChangeDirection = 0;
+            enemyCollide = true;
             changeDirection();
+            //change direction from colliding with the enemy
+        }
+        if(id == ID.BossEnemy){
+            endChangeDirection = 0;
+            enemyCollide = true;
+            changeDirection();
+            //change direction from colliding with the enemy
+        }
+        if(id == ID.BasicEnemy){
+            endChangeDirection = 0;
+            enemyCollide = true;
+            changeDirection();
+            //change direction from colliding with the enemy
         }
         if(id == ID.Player){
+            endChangeDirection = 0;
+            enemyCollide = true;
             changeDirection();
-            System.out.println("collide");
+
         }
 
 
@@ -70,12 +94,13 @@ public class BasicEnemy extends GameObject{
         velX = mux*basicSpeed;
         velY = muy*basicSpeed;
 
-        // if enemy collides with the barrier then adjust the movement
+
 
 
     }
     public void changeDirection(){
-
+        velX = - velX;
+        velY = - velY;
     }
 
 }

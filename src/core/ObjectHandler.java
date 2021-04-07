@@ -35,6 +35,7 @@ public class ObjectHandler {
                 collision(object.get(i));
             }
             catch (Exception ignored){
+
             }
         }
 
@@ -50,17 +51,23 @@ public class ObjectHandler {
                 }
             }
 
+
         }
+
 
     public void render(){
         context.save();
 
         // !! These lines render the background, they can be replaced if a new class or method is made to
         // define the background. They're just a placeholder for now.
+
         context.drawImage(bkg, 0, 0);
+
         // End of background space
 
         // Renders object by their respective images and locations
+
+
         for(int i = 0; i < object.size(); i++){
 
             // This if statement can be removed if game boundaries are not defined by objects.
@@ -71,6 +78,8 @@ public class ObjectHandler {
                         object.get(i).getPosition().getY());
             }
         }
+
+
         context.restore();
 
     }
@@ -105,5 +114,6 @@ public class ObjectHandler {
 
         return temp;
     }
+
 
 }

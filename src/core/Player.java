@@ -5,6 +5,7 @@ import Objects.Bullet;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
+
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -16,9 +17,10 @@ import javafx.scene.input.MouseEvent;
  * */
 public class Player extends GameObject {
 
-    private double speedMod;
-
-    Image playerImage = new Image("resources/man.png");
+    private boolean immune = false;//when true the player is immune
+    private int immuneCount = 0;//counter for the length the player is immune for
+    Image playerImage = new Image("resources/man.png");//booger man image
+    PlayerStats user = PlayerStats.getInstance();
 
     public Player(int posX, int posY, ObjectHandler handler) {
         super(posX, posY, handler);
@@ -26,24 +28,98 @@ public class Player extends GameObject {
         this.setImage(playerImage);
         width = (int) playerImage.getWidth();
         height = (int) playerImage.getHeight();
-        this.speedMod = 5;
-    }
-
-    @Override
-    public void collisionCode(ID id, GameObject object) {
 
     }
+
+
+    public void collisionCode(ID id, GameObject gameObj) {
+        if(id == ID.EnemyBullet){
+            handler.removeObject(gameObj);//removes enemy bullet
+
+
+            if(!immune){
+
+                immune = true;//player is immune
+                immuneCount = 0;//counter starts for the immunity period
+                user.setHealth(user.getHealth() -10);//damage taken from the bullet
+            }
+        }
+        if(id == ID.BossEnemy){
+            if(!immune){
+
+                immune = true;//player is immune
+                immuneCount = 0;//counter starts for the immunity period
+
+                user.setHealth(user.getHealth() - 20);//damage taken from the bosses melee attack
+
+            }
+
+
+        }
+        if(id == ID.BasicEnemy && !immune){
+
+            user.setHealth(user.getHealth() - 10);//damage taken from the Basic Enemies melee attack
+
+            immune = true;//player is immune
+            immuneCount = 0;//counter starts for the immunity period
+
+        }
+        if(id == ID.SingleFireEnemy && !immune){
+
+            user.setHealth(user.getHealth() - 10);//damage taken from the Basic Enemies melee attack
+
+            immune = true;//player is immune
+            immuneCount = 0;//counter starts for the immunity period
+
+        }
+        if(id == ID.Health){
+            handler.removeObject(gameObj);//remove the health upgrade
+            user.setHealth(user.getHealth() + 20);//heal player by 20
+        }
+
+        if(id == ID.FireRateUpgrade){
+            handler.removeObject(gameObj);//remove the fire rate upgrade
+            user.setFireRate(user.getFireRate() - 2);//reduce fire rate by 2
+
+        }
+        if(id == ID.SpeedUpgrade){
+            handler.removeObject(gameObj);//remove the player speed upgrade
+            user.setSpeedMod(user.getSpeedMod() + 5);//increase speed by 5
+        }
+
+
+
+
+    }
+    public void playImmunity(){
+        //immunity ends
+        if(immune){
+
+            immune = false;
+
+        }
+
+
+    }
+
 
     @Override
     public void tick() {
         playerInput();
+
         position = new Point2D(position.getX() + velX, position.getY() + velY);
-    }
 
-    public void setSpeedMod(double speedMod) {
-        this.speedMod = speedMod;
-    }
+        immuneCount = immuneCount + 1;
+        if (180 <= immuneCount && immune) {
 
+        playImmunity();
+        immuneCount = 0;//reset the immunity counter
+        }
+
+        playerInput();//take in player input
+        position = new Point2D(position.getX() + velX * user.getSpeedMod(), position.getY() + velY * user.getSpeedMod());
+
+    }
 
 
 
@@ -55,8 +131,8 @@ public class Player extends GameObject {
 
     // --- Below here is all information for player input --- //
 
-    private int fireRate = 20;
-    private int bulletVel = 15;
+
+
     private int timer = 0;
 
     public void playerInput(){
@@ -89,7 +165,7 @@ public class Player extends GameObject {
         double uX = mX / Hyp;
         double uY = mY / Hyp;
 
-        velX = speedMod*uX; velY = speedMod*uY;
+        velX = user.getSpeedMod()*uX; velY = user.getSpeedMod()*uY;
 
 
 
@@ -104,9 +180,9 @@ public class Player extends GameObject {
         double muy = mdY / mHyp;
 
         timer ++;
-        if (timer >= fireRate){
+        if (timer >= user.getFireRate()){
             if (PlayerInput.firing){
-            handler.addObject(new Bullet(this.handler, bulletVel*mux, bulletVel*muy));
+            handler.addObject(new Bullet(this.handler, user.getBulletVel()*mux, user.getBulletVel()*muy));
             timer = 0;
             }
         }
@@ -219,13 +295,6 @@ public class Player extends GameObject {
 
     }
 
-    // --- Getters and setters --- //
-    public void setFireRate(int fireRate) {
-        this.fireRate = fireRate;
-    }
 
-    public void setBulletVel(int bulletVel) {
-        this.bulletVel = bulletVel;
-    }
 
 }
