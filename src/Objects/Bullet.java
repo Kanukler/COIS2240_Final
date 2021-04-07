@@ -8,7 +8,7 @@ import javafx.scene.image.Image;
 
 public class Bullet extends GameObject {
     GameObject player;
-    Image bulletImage = new Image("resources/man.png");
+    Image bulletImage = new Image("resources/bullet.png");
 
 
     public Bullet(ObjectHandler handler, double velX, double velY) {

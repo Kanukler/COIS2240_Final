@@ -19,9 +19,11 @@ public class Controller {
 
         // This line is just to spawn the player for demo purposes.
         spawner.spawnPlayer(500, 300);
-        spawner.spawnBasicEnemy(400, 200);
-        spawner.spawnSingleEnemy(450, 200);
-        spawner.spawnHealth(600, 200);
+        //spawner.spawnBasicEnemy(400, 200);
+        //spawner.spawnBasicEnemy(500, 250);
+        //spawner.spawnBasicEnemy(600, 250);
+        //spawner.spawnSingleEnemy(450, 200);
+        //spawner.spawnHealth(600, 200);
         spawner.spawnBossEnemy(400, 200);
         /* This is where the game ticks every frame. If you need something to happen every frame, put it here.
         If it extends GameObject, it should already be doing this within it's tick method.

@@ -6,7 +6,7 @@ public class Health extends GameObject{
 
 
     private double health = 10.0;
-    Image HealthImg = new Image("resources/man.png");//just for an example not the actual image of the basic enemy
+    Image HealthImg = new Image("resources/man.png");//just for an example not the actual image of the health kit
     private Object Bullet;
     private Object BasicEnemy;
 

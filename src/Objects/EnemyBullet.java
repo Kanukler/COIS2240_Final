@@ -8,7 +8,7 @@ import core.*;
 public class EnemyBullet extends GameObject {
     private GameObject firer;
     GameObject player;
-    Image bulletImage = new Image("resources/man.png");
+    Image bulletImage = new Image("resources/EnemyBullet.png");
     public EnemyBullet(core.ObjectHandler handler, double velX, double velY, GameObject firer){
         this.firer = firer;//to get the positions of the enemy that fired the bullet
 

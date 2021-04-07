@@ -16,8 +16,12 @@ public class SingleFireEnemy extends GameObject {
     private int bulletVel = 5;
     private int timer = 0;
 
+    private int ran;
 
-    Image singleImage = new Image("resources/man.png");//just for an example not the actual image of the single fire enemy
+    private  boolean enemyCollide = false;
+    private int endChangeDirection = 0;
+
+    Image singleImage = new Image("resources/Shooter.png");//just for an example not the actual image of the single fire enemy
 
     public SingleFireEnemy(int posX, int posY, ObjectHandler handler) {
         super(posX, posY, handler);
@@ -31,10 +35,14 @@ public class SingleFireEnemy extends GameObject {
 
     @Override
     public void tick() {
+        endChangeDirection++;
 
-        move();
-        position = new Point2D(position.getX() + velX*singleSpeed, position.getY() + velY*singleSpeed);//unit vector directing to the player
+        if(!enemyCollide || endChangeDirection >= 15){
+            move();//if enemy is not collided or change direction counter is greater than 15 then move normally
+        }
+        position = new Point2D(position.getX() + velX*singleSpeed, position.getY() + velY*singleSpeed);
         //unit vector directing to the player
+
 
 
         fire();
@@ -54,7 +62,27 @@ public class SingleFireEnemy extends GameObject {
 
         }
         if(id == ID.Barrier){
-            System.out.println("Barrier");//if the enemy moves into a barrier then change direction
+            endChangeDirection = 0;
+            enemyCollide = true;
+            changeDirectionSingle();
+            //if the enemy moves into a barrier then change direction
+        }
+        if(id == ID.SingleFireEnemy){
+            endChangeDirection = 0;
+            enemyCollide = true;
+            changeDirectionSingle();
+            //change direction from colliding with the enemy
+        }
+        if(id == ID.BasicEnemy){
+            endChangeDirection = 0;
+            enemyCollide = true;
+            changeDirectionSingle();
+            //change direction from colliding with the enemy
+        }
+        if(id == ID.Player){
+            endChangeDirection = 0;
+            enemyCollide = true;
+            changeDirectionSingle();
 
         }
 
@@ -99,15 +127,23 @@ public class SingleFireEnemy extends GameObject {
 
         timer ++;
         if (timer >= fireRate){
+            ran = (int)(Math.random()*300) + 200;
+            double coin = (Math.random());
+            //System.out.println(coin);
+            //https://stackoverflow.com/questions/8610635/how-do-you-use-math-random-to-generate-random-ints/8610691
+            if(coin <= 0.5){
+                ran = -ran;
+            }
+            handler.addObject(new EnemyBullet(this.handler, bulletVel*mux, bulletVel*muy, this));
 
-                handler.addObject(new EnemyBullet(this.handler, bulletVel*mux, bulletVel*muy, this));
-                timer = 0;
+
+
+            timer = 0;
 
         }
-
-        //handler.addObject(new Bullet(this.handler, bulletVel*position.getX(), bulletVel*position.getY()));
-        //ask Thompson about the math for the vector
-
-
+    }
+    public void changeDirectionSingle(){
+        velX = - velX;
+        velY = - velY;
     }
 }

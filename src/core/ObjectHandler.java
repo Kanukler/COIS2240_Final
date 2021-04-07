@@ -2,6 +2,7 @@ package core;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
 import java.util.LinkedList;
@@ -33,7 +34,7 @@ public class ObjectHandler {
 
 
             } catch (Exception e) {
-
+                System.out.println(e);
             }
         }
 
@@ -49,17 +50,21 @@ public class ObjectHandler {
 
             }
     }
-
+    Image img = new Image("resources/Level1.png");
     public void render(){
         context.save();
 
+        context.drawImage(img, 0, 0);
         // !! These lines render the background, they can be replaced if a new class or method is made to
         // define the background. They're just a placeholder for now.
-            context.setFill(Color.PINK);
+        /*
+        context.setFill(Color.PINK);
         context.fillRect(0,0,canvas.getWidth(),canvas.getHeight());
         // End of background space
 
         // Renders object by their respective images and locations
+
+         */
         for(int i = 0; i < object.size(); i++){
 
             // This if statement can be removed if game boundaries are not defined by objects.
@@ -70,6 +75,8 @@ public class ObjectHandler {
                         object.get(i).getPosition().getY());
             }
         }
+
+
         context.restore();
 
     }
@@ -104,5 +111,6 @@ public class ObjectHandler {
 
         return temp;
     }
+
 
 }

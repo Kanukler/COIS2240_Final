@@ -4,7 +4,7 @@
 <!--The dimensions of the Pane and Canvas should be equal to the dimensions of the level image -->
 <Pane fx:controller="core.Controller"
             xmlns:fx="http://javafx.com/fxml"
-            fx:id="pane" prefWidth="3000" prefHeight="2000" >
-    <Canvas fx:id="gameCanvas" width="3000" height="2000"/>
+            fx:id="pane" prefWidth="1920" prefHeight="1920" >
+    <Canvas fx:id="gameCanvas" width="1920" height="1920"/>
 
 </Pane>
