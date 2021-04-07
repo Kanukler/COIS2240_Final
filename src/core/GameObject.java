@@ -45,7 +45,7 @@ public abstract class GameObject {
     public abstract void collisionCode(ID id, GameObject object);
 
     public Rectangle2D getBounds(){
-        return new Rectangle2D(position.getX(), position.getY(), height, width);
+        return new Rectangle2D(position.getX(), position.getY(), width, height);
     }
 
 
@@ -56,6 +56,10 @@ public abstract class GameObject {
 
     public ID getId() {
         return id;
+    }
+
+    public void setPosition(Point2D position) {
+        this.position = position;
     }
 
     public Point2D getPosition(){
@@ -84,6 +88,31 @@ public abstract class GameObject {
 
     public void setVelY(int velY) {
         this.velY = velY;
+    }
+
+    public double getVelX() {
+        return velX;
+    }
+
+    public double getVelY() {
+        return velY;
+    }
+
+
+    public Rectangle2D bStepX(){
+        return new Rectangle2D(position.getX()-velX, position.getY(), width, height);
+    }
+
+    public Rectangle2D bStepY(){
+        return new Rectangle2D(position.getX(), position.getY()-velY, width, height);
+    }
+
+    /**Barrier code, prevents objects from overlapping with one another*/
+    public void barrier(GameObject object){
+        if (!this.getBounds().intersects(object.bStepX()))
+            object.setPosition(new Point2D(object.getPosition().getX() - object.getVelX(), object.getPosition().getY()));
+        else if (!this.getBounds().intersects(object.bStepY()))
+            object.setPosition(new Point2D(object.getPosition().getX(), object.getPosition().getY() - object.getVelY()));
     }
 
 }

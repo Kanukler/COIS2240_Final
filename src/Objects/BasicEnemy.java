@@ -9,9 +9,7 @@ public class BasicEnemy extends GameObject{
     private double basicSpeed;
     private GameObject player;
     private double health = 10.0;
-    Image basicImage = new Image("resources/Enemy.png");//just for an example not the actual image of the basic enemy
-    private Object Bullet;
-    private Object BasicEnemy;
+    Image basicImage = new Image("resources/Enemy.png");
 
     public BasicEnemy(int posX, int posY, ObjectHandler handler) {
         super(posX, posY, handler);
@@ -20,14 +18,14 @@ public class BasicEnemy extends GameObject{
         width = (int) basicImage.getWidth();
         height = (int) basicImage.getHeight();
         this.player = handler.findPlayer();
-        this.basicSpeed = 1;
+        this.basicSpeed = 4;
     }
 
     @Override
     public void tick() {
 
         move();
-        position = new Point2D(position.getX() + velX*basicSpeed, position.getY() + velY*basicSpeed);//unit vector directing to the player
+        position = new Point2D(position.getX() + velX, position.getY() + velY);//unit vector directing to the player
 
     }
 
@@ -62,24 +60,15 @@ public class BasicEnemy extends GameObject{
 
     public void move(){
 
-        if(position.getX() == player.getPosition().getX()){
-            velX = 0;
-        }
-        else if(position.getX() < player.getPosition().getX()){
-            velX = basicSpeed;
-        }else {
-            velX = - basicSpeed;
-        }
+        double mdX = player.getPosition().getX() - this.getPosition().getX();
+        double mdY = player.getPosition().getY() - this.getPosition().getY();
+        double mHyp = Math.sqrt(mdX * mdX + mdY * mdY);
+        //Use mnx and mny to modify velocity direction.
+        double mux = mdX / mHyp;
+        double muy = mdY / mHyp;
 
-
-        if(position.getY() == player.getPosition().getY()){
-            velY = 0;
-        }
-        else if(position.getY() < player.getPosition().getY()){
-            velY =  basicSpeed;
-        }else {
-            velY = - basicSpeed;
-        }
+        velX = mux*basicSpeed;
+        velY = muy*basicSpeed;
 
         // if enemy collides with the barrier then adjust the movement
 

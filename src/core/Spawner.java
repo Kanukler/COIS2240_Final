@@ -1,9 +1,6 @@
 package core;
 
-import Objects.BasicEnemy;
-import Objects.BossEnemy;
-import Objects.Health;
-import Objects.SingleFireEnemy;
+import Objects.*;
 
 /** A placeholder spawner class. At the moment, does basically nothing */
 public class Spawner {
@@ -33,6 +30,10 @@ public class Spawner {
 
     public void spawnHealth(int x, int y){
         handler.addObject(new Health(x, y, handler));
+    }
+
+    public void spawnObstacle(int x, int y){
+        handler.addObject(new Obstacle(x, y, handler));
     }
 
 

@@ -12,12 +12,13 @@ public class SingleFireEnemy extends GameObject {
     private GameObject player;
     private double health = 30;
 
-    private int fireRate = 60;
+    private int fireRate = 180;
     private int bulletVel = 5;
     private int timer = 0;
 
 
-    Image singleImage = new Image("resources/Enemy2.png");//just for an example not the actual image of the single fire enemy
+    Image singleImage = new Image("resources/Enemy2.png");
+    Image firingImage = new Image("resources/Enemy2F.png");
 
     public SingleFireEnemy(int posX, int posY, ObjectHandler handler) {
         super(posX, posY, handler);
@@ -98,15 +99,14 @@ public class SingleFireEnemy extends GameObject {
         double muy = mdY / mHyp;
 
         timer ++;
+        if (timer == fireRate - 40) this.setImage(firingImage);
+
         if (timer >= fireRate){
 
                 handler.addObject(new EnemyBullet(this.handler, bulletVel*mux, bulletVel*muy, this));
                 timer = 0;
-
+                this.setImage(singleImage);
         }
-
-        //handler.addObject(new Bullet(this.handler, bulletVel*position.getX(), bulletVel*position.getY()));
-        //ask Thompson about the math for the vector
 
 
     }

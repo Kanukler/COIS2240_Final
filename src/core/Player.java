@@ -26,7 +26,7 @@ public class Player extends GameObject {
         this.setImage(playerImage);
         width = (int) playerImage.getWidth();
         height = (int) playerImage.getHeight();
-        this.speedMod = 1;
+        this.speedMod = 5;
     }
 
     @Override
@@ -37,7 +37,7 @@ public class Player extends GameObject {
     @Override
     public void tick() {
         playerInput();
-        position = new Point2D(position.getX() + velX*speedMod, position.getY() + velY*speedMod);
+        position = new Point2D(position.getX() + velX, position.getY() + velY);
     }
 
     public void setSpeedMod(double speedMod) {
@@ -62,8 +62,8 @@ public class Player extends GameObject {
     public void playerInput(){
         PlayerInput e = PlayerInput.getInput();
         e.press();
-
         // Player Movement
+        /* Obsolete
         if(PlayerInput.up) velY = -5;
         else if(!PlayerInput.down) velY = 0;
         if(PlayerInput.left) velX = -5;
@@ -73,6 +73,25 @@ public class Player extends GameObject {
 
         if(PlayerInput.up && PlayerInput.down) velY = 0;
         if(PlayerInput.left && PlayerInput.right) velX = 0;
+         */
+
+        double mX = 0, mY = 0;
+        //mX = 0; mY = 0;
+
+        if(PlayerInput.up) mY -= 1;
+        if(PlayerInput.down) mY +=1;
+        if(PlayerInput.left) mX -= 1;
+        if(PlayerInput.right) mX += 1;
+
+        double Hyp = Math.sqrt(mX * mX + mY * mY);
+        if (Hyp == 0) Hyp = 1;
+        //Use mnx and mny to modify velocity direction.
+        double uX = mX / Hyp;
+        double uY = mY / Hyp;
+
+        velX = speedMod*uX; velY = speedMod*uY;
+
+
 
         // --- Player firing
         // Calculates the unit vector to allow for consistent bullet velocity.

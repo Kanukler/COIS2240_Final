@@ -2,6 +2,7 @@ package core;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
 import java.util.LinkedList;
@@ -13,6 +14,9 @@ import java.util.LinkedList;
 public class ObjectHandler {
     Canvas canvas;
     GraphicsContext context;
+
+    //Background temp
+    Image bkg = new Image("resources/Level1.png");
 
     LinkedList<GameObject> object = new LinkedList<>();
 
@@ -27,8 +31,9 @@ public class ObjectHandler {
 
         for (int i = 0; i < object.size(); i++) {
             try{
-            collision(object.get(i));
-            object.get(i).tick();}
+                object.get(i).tick();
+                collision(object.get(i));
+            }
             catch (Exception ignored){
             }
         }
@@ -52,8 +57,7 @@ public class ObjectHandler {
 
         // !! These lines render the background, they can be replaced if a new class or method is made to
         // define the background. They're just a placeholder for now.
-        context.setFill(Color.PINK);
-        context.fillRect(0,0,canvas.getWidth(),canvas.getHeight());
+        context.drawImage(bkg, 0, 0);
         // End of background space
 
         // Renders object by their respective images and locations

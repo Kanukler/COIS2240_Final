@@ -7,23 +7,25 @@ import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 
 public class BossEnemy extends GameObject {
-    private double bossSpeed;
+    private final double bossSpeed;
     private GameObject player;
-    private double health = 50;
+    private double health = 500;
 
-
-    private int fireRate = 60;
+    private int charge = 300, fireRate = 5;
     private int bulletVel = 5;
     private int timer = 0;
 
-    Image BossImage = new Image("resources/Enemy.png");//just for an example not the actual image of the boss enemy
+    Image bossImage = new Image("resources/Boss.png");
+    Image bossFire1 = new Image("resources/BossF1.png");
+    Image bossFire2 = new Image("resources/BossF2.png");
+    Image bossFire3 = new Image("resources/BossF3.png");
 
     public BossEnemy(int posX, int posY, ObjectHandler handler){
         super(posX, posY, handler);
         this.setId(ID.BossEnemy);
-        this.setImage(BossImage);
-        width = (int) BossImage.getWidth();
-        height = (int) BossImage.getHeight();
+        this.setImage(bossImage);
+        width = (int) bossImage.getWidth();
+        height = (int) bossImage.getHeight();
         this.player = handler.findPlayer();
         this.bossSpeed = 1;//I just want a slower enemy
     }
@@ -55,58 +57,128 @@ public class BossEnemy extends GameObject {
         }
 
     }
-    private int ran;
+
     public void move(){
 
-        if(position.getX() < player.getPosition().getX() - ran){
-            velX = 1;
+        if(position.getX() < player.getPosition().getX() - ran1){
+            velX = 0;
         }
-        if(position.getX() > player.getPosition().getX() - ran){
-            velX = - 1;
+        if(position.getX() > player.getPosition().getX() - ran1){
+            velX = - 0;
         }
 
-        if(position.getY() < player.getPosition().getY() - ran){
-            velY = 1;
+        if(position.getY() < player.getPosition().getY() - ran1){
+            velY = 0;
         }
-        if(position.getY() > player.getPosition().getY() - ran){
-            velY = - 1;
+        if(position.getY() > player.getPosition().getY() - ran1){
+            velY = - 0;
         }
         // if enemy collides with the barrier then adjust the movement
 
 
     }
+
+
+
+
+
+
+    // --- Boss firing mechanics --- //
+    private int ran1, ran2;
+    private boolean firing = false;
+    private double coin = 0;
     public void fire(){
+        if(timer == 0) {
+            firing = false;
+            coin = Math.random();
+            this.setImage(bossImage);
+        }
+        if(!firing) timer ++;
 
-        // --- Player firing
-        // Calculates the unit vector to allow for consistent bullet velocity.
-        // Note that since PlayerInput is static, this code can be copied anywhere it's needed.
-        double mdX = player.getPosition().getX() - this.getPosition().getX();
-        double mdY = player.getPosition().getY() - this.getPosition().getY();
-        double mHyp = Math.sqrt(mdX * mdX + mdY * mdY);
-        //Use mnx and mny to modify velocity direction.
-        double mux = mdX / mHyp;
-        double muy = mdY / mHyp;
+        if (timer == charge - 120) this.setImage(bossFire1);
+        else if (timer == charge - 100) this.setImage(bossFire2);
+        else if (timer >= charge - 30) {
 
-        timer ++;
-        if (timer >= fireRate){
-                ran = (int)(Math.random()*300) + 200;
-                double coin = (Math.random());
-                //System.out.println(coin);
-                //https://stackoverflow.com/questions/8610635/how-do-you-use-math-random-to-generate-random-ints/8610691
-                if(coin <= 0.5){
-                    ran = -ran;
-                }
-                handler.addObject(new EnemyBullet(this.handler, bulletVel*mux, bulletVel*muy, this));
+            velX = 0; velY = 0;
+            this.setImage(bossFire3);
+
+        }
 
 
+        if (timer >= charge || firing){
+            if (coin < 0.5)
+                firePattern1();
+            else
+                firePattern2();
 
-            timer = 0;
+            velX = 0; velY = 0;
+            firing = true;
+            timer = timer - 2;
+            this.setImage(bossFire3);
 
         }
 
         //handler.addObject(new Bullet(this.handler, bulletVel*position.getX(), bulletVel*position.getY()));
         //ask Thompson about the math for the vector
 
-
     }
+
+    private void firePattern1(){
+        bulletVel = 5;
+        ran1 = (int)(Math.random()*this.getPosition().getX());
+        ran2 = (int)(Math.random()*this.getPosition().getY());
+        double coin1 = Math.random();
+        double coin2 = Math.random();
+        //System.out.println(coin);
+        //https://stackoverflow.com/questions/8610635/how-do-you-use-math-random-to-generate-random-ints/8610691
+        if(coin1 <= 0.5){
+            ran1 = -ran1;
+        }
+        if(coin2 <= 0.5){
+            ran2 = -ran2;
+        }
+
+        // Calculates the unit vector to allow for consistent bullet velocity.
+        // Note that since PlayerInput is static, this code can be copied anywhere it's needed.
+        double mdX = ran1;
+        double mdY = ran2;
+        double mHyp = Math.sqrt(mdX * mdX + mdY * mdY);
+        //Use mnx and mny to modify velocity direction.
+        double mux = mdX / mHyp;
+        double muy = mdY / mHyp;
+
+        if(timer % 2 == 0) {
+            handler.addObject(new EnemyBullet(this.handler, bulletVel * mux, bulletVel * muy, this));
+        }
+    }
+
+    private void firePattern2(){
+        bulletVel = 10;
+        ran1 = (int)(Math.random()*this.getPosition().getX())/3;
+        ran2 = (int)(Math.random()*this.getPosition().getY())/3;
+        double coin1 = Math.random();
+        double coin2 = Math.random();
+        //System.out.println(coin);
+        //https://stackoverflow.com/questions/8610635/how-do-you-use-math-random-to-generate-random-ints/8610691
+        if(coin1 <= 0.5){
+            ran1 = -ran1;
+        }
+        if(coin2 <= 0.5){
+            ran2 = -ran2;
+        }
+
+        // Calculates the unit vector to allow for consistent bullet velocity.
+        // Note that since PlayerInput is static, this code can be copied anywhere it's needed.
+        double mdX = player.getPosition().getX() - this.getPosition().getX() +ran1;
+        double mdY = player.getPosition().getY() - this.getPosition().getY() +ran2;
+        double mHyp = Math.sqrt(mdX * mdX + mdY * mdY);
+        // Use mnx and mny to modify velocity direction.
+        double mux = mdX / mHyp;
+        double muy = mdY / mHyp;
+
+        if(timer % fireRate == 0) {
+            handler.addObject(new EnemyBullet(this.handler, bulletVel * mux, bulletVel * muy, this));
+        }
+    }
+
 }
