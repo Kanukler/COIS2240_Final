@@ -60,7 +60,8 @@ public class ObjectHandler {
 
         // !! These lines render the background, they can be replaced if a new class or method is made to
         // define the background. They're just a placeholder for now.
-
+        context.setFill(Color.SLATEGRAY);
+        context.fillRect(0,0,canvas.getWidth(),canvas.getHeight());
         context.drawImage(bkg, 0, 0);
 
         // End of background space
@@ -102,6 +103,13 @@ public class ObjectHandler {
         for(int i = 0; i < object.size(); i++) {
             if (this.object.get(i).getId() == id) this.object.remove(this.object.get(i));
         }
+    }
+
+    public boolean objectHandled(GameObject temp){
+        for(int i = 0; i < object.size(); i++) {
+            if (this.object.get(i) == temp) return true;
+        }
+        return false;
     }
 
     public GameObject findPlayer(){

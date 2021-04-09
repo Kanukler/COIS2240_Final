@@ -18,9 +18,12 @@ import javafx.scene.input.MouseEvent;
 public class Player extends GameObject {
 
     private boolean immune = false;//when true the player is immune
-    private int immuneCount = 0;//counter for the length the player is immune for
+    private int IFrames;//counter for the length the player is immune for
     Image playerImage = new Image("resources/man.png");//booger man image
+    Image playerImageD = new Image("resources/ManD.png");
     PlayerStats user = PlayerStats.getInstance();
+
+    private final int baseSpeed = 10;
 
     public Player(int posX, int posY, ObjectHandler handler) {
         super(posX, posY, handler);
@@ -35,121 +38,58 @@ public class Player extends GameObject {
     public void collisionCode(ID id, GameObject gameObj) {
         if(id == ID.EnemyBullet){
             handler.removeObject(gameObj);//removes enemy bullet
-
-
-            if(!immune){
-
-                immune = true;//player is immune
-                immuneCount = 0;//counter starts for the immunity period
-                user.setHealth(user.getHealth() -10);//damage taken from the bullet
-            }
-        }
-        if(id == ID.BossEnemy){
-            if(!immune){
-
-                immune = true;//player is immune
-                immuneCount = 0;//counter starts for the immunity period
-
-                user.setHealth(user.getHealth() - 20);//damage taken from the bosses melee attack
-
-            }
-
-
-        }
-        if(id == ID.BasicEnemy && !immune){
-
-            user.setHealth(user.getHealth() - 10);//damage taken from the Basic Enemies melee attack
-
-            immune = true;//player is immune
-            immuneCount = 0;//counter starts for the immunity period
-
-        }
-        if(id == ID.SingleFireEnemy && !immune){
-
-            user.setHealth(user.getHealth() - 10);//damage taken from the Basic Enemies melee attack
-
-            immune = true;//player is immune
-            immuneCount = 0;//counter starts for the immunity period
-
-        }
-        if(id == ID.Health){
-            handler.removeObject(gameObj);//remove the health upgrade
-            user.setHealth(user.getHealth() + 20);//heal player by 20
+            damagePlayer();
+        }else if(id == ID.BossEnemy || id == ID.BasicEnemy || id == ID.SingleFireEnemy){
+            damagePlayer();
         }
 
-        if(id == ID.FireRateUpgrade){
-            handler.removeObject(gameObj);//remove the fire rate upgrade
-            user.setFireRate(user.getFireRate() - 2);//reduce fire rate by 2
-
-        }
-        if(id == ID.SpeedUpgrade){
-            handler.removeObject(gameObj);//remove the player speed upgrade
-            user.setSpeedMod(user.getSpeedMod() + 5);//increase speed by 5
-        }
-
-
-
-
-    }
-    public void playImmunity(){
-        //immunity ends
-        if(immune){
-
-            immune = false;
-
+        if(id == ID.Barrier){
+            nonStaticBarrier(this, gameObj);
         }
 
 
     }
 
+    public void damagePlayer(){
+        if(IFrames <= 0) {
+            user.setHealth(user.getHealth() - 1);
+            IFrames = user.getImmuneTime();//counter starts for the immunity period
+            this.setImage(playerImageD);
+        }
+    }
 
     @Override
     public void tick() {
         playerInput();
 
-        position = new Point2D(position.getX() + velX, position.getY() + velY);
+        if (IFrames > 0){
+            IFrames--;
 
-        immuneCount = immuneCount + 1;
-        if (180 <= immuneCount && immune) {
+            if(IFrames % 10 == 0){
+                if(this.getImage() == playerImage)
+                    this.setImage(playerImageD);
+                else
+                    this.setImage(playerImage);
+            }
 
-        playImmunity();
-        immuneCount = 0;//reset the immunity counter
+            if(IFrames <= 0)
+                this.setImage(playerImage);
         }
 
         playerInput();//take in player input
-        position = new Point2D(position.getX() + velX * user.getSpeedMod(), position.getY() + velY * user.getSpeedMod());
+        position = new Point2D(position.getX() + velX, position.getY() + velY);
 
     }
 
 
 
 
-
-
-
-
-
     // --- Below here is all information for player input --- //
-
-
-
     private int timer = 0;
 
     public void playerInput(){
         PlayerInput e = PlayerInput.getInput();
         e.press();
-        // Player Movement
-        /* Obsolete
-        if(PlayerInput.up) velY = -5;
-        else if(!PlayerInput.down) velY = 0;
-        if(PlayerInput.left) velX = -5;
-        else if(!PlayerInput.right) velX = 0;
-        if(PlayerInput.down) velY = 5;
-        if(PlayerInput.right) velX = 5;
-
-        if(PlayerInput.up && PlayerInput.down) velY = 0;
-        if(PlayerInput.left && PlayerInput.right) velX = 0;
-         */
 
         double mX = 0, mY = 0;
         //mX = 0; mY = 0;
@@ -165,7 +105,7 @@ public class Player extends GameObject {
         double uX = mX / Hyp;
         double uY = mY / Hyp;
 
-        velX = user.getSpeedMod()*uX; velY = user.getSpeedMod()*uY;
+        velX = baseSpeed*uX*user.getSpeedMod(); velY = baseSpeed*uY*user.getSpeedMod();
 
 
 
@@ -192,7 +132,7 @@ public class Player extends GameObject {
         if (PlayerInput.exit){
             Launcher launch = new Launcher();
             try {
-                launch.mainMenu();
+                launch.gameEnd();
             } catch (Exception exception) {
                 exception.printStackTrace();
             }

@@ -1,16 +1,23 @@
 package Menus;
 
-import core.Player;
+import core.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import levels.Loader;
 
 public class Launcher {
 
+    private static ObjectHandler handler;
+    private static GameLoop loop;
     public static Scene scene;
 
+    public Launcher(){
+
+    }
+
     public void game() throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("../resources/Game.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("Game.fxml"));
         scene.setRoot(root);
 
         Player.PlayerInput.getInput().setScene(scene);
@@ -26,4 +33,21 @@ public class Launcher {
         scene.setRoot(root);
     }
 
+    public void gameEnd() throws Exception{
+        loop.stop();
+
+        handler.clearObjects();
+        PlayerStats.reset();
+        Loader.enemyCount = 0;
+
+        mainMenu();
+    }
+
+    public static void setHandler(ObjectHandler handler) {
+        Launcher.handler = handler;
+    }
+
+    public static void setLoop(GameLoop loop) {
+        Launcher.loop = loop;
+    }
 }

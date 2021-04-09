@@ -14,11 +14,9 @@ public enum ID {
     // --- BULLET --- //
     Bullet(),
     EnemyBullet(),
-    // --- UPGRADES --- //
-    Health(),
-    FireRateUpgrade(),
-    SpeedUpgrade(),
+
     // --- OTHER --- //
+    MobSpawner(),
     Barrier(),
 
 }

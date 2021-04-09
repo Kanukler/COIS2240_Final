@@ -3,18 +3,15 @@ package Objects;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import core.*;
+import levels.Loader;
 
 //https://www.youtube.com/watch?v=JBGCCAv76YI
 public class BasicEnemy extends GameObject{
     private double basicSpeed;
     private GameObject player;
-    private double health = 10.0;
+    private double health;
 
     Image basicImage = new Image("resources/Enemy.png");
-
-
-    private  boolean enemyCollide = false;
-    private int endChangeDirection = 0;
 
 
     public BasicEnemy(int posX, int posY, ObjectHandler handler) {
@@ -24,61 +21,38 @@ public class BasicEnemy extends GameObject{
         width = (int) basicImage.getWidth();
         height = (int) basicImage.getHeight();
         this.player = handler.findPlayer();
-        this.basicSpeed = 4;
+        this.basicSpeed = 8;
+        this.health = 1;
     }
 
     @Override
     public void tick() {
-        endChangeDirection++;
 
         move();
-        position = new Point2D(position.getX() + velX, position.getY() + velY);//unit vector directing to the player
+        position = new Point2D(position.getX() + velX, position.getY() + velY);
 
-        if(!enemyCollide || endChangeDirection >= 15){
-            move();//if enemy is not collided or change direction counter is greater than 15 then move normally
-        }
 
     }
 
     @Override
     public void collisionCode(ID id, GameObject gameObj) {
         if(id == ID.Bullet){
-            //remove both objects since the bullet found its target and the basic enemy is dead
             handler.removeObject(gameObj);
-            handler.removeObject( this);
+            health = health - PlayerStats.getInstance().getDamage();
+            if(health <= 0){
+                handler.removeObject( this);
+                PlayerStats.setScore(PlayerStats.getScore() + 2);
+                Loader.enemyCount--;
 
+                if(Loader.getTimer() == 0 && Loader.enemyCount == 0 || Math.random() < 0.01) {
+                    handler.addObject(new PickUp((int) this.getPosition().getX(), (int) this.getPosition().getY(), handler));
+                }else if (Math.random() < 0.05){
+                    handler.addObject(new Health((int) this.getPosition().getX(), (int) this.getPosition().getY(), handler));
+                }
+            }
+        }else if(id == ID.BasicEnemy || id == ID.BossEnemy || id == ID.SingleFireEnemy){
+            nonStaticBarrier(gameObj, this);
         }
-        if(id == ID.Barrier){
-            endChangeDirection = 0;
-            enemyCollide = true;
-            changeDirection();
-           //if the enemy moves into a barrier then change direction
-        }
-        if(id == ID.BasicEnemy){
-            endChangeDirection = 0;
-            enemyCollide = true;
-            changeDirection();
-            //change direction from colliding with the enemy
-        }
-        if(id == ID.BossEnemy){
-            endChangeDirection = 0;
-            enemyCollide = true;
-            changeDirection();
-            //change direction from colliding with the enemy
-        }
-        if(id == ID.BasicEnemy){
-            endChangeDirection = 0;
-            enemyCollide = true;
-            changeDirection();
-            //change direction from colliding with the enemy
-        }
-        if(id == ID.Player){
-            endChangeDirection = 0;
-            enemyCollide = true;
-            changeDirection();
-
-        }
-
 
     }
 
@@ -93,14 +67,7 @@ public class BasicEnemy extends GameObject{
 
         velX = mux*basicSpeed;
         velY = muy*basicSpeed;
-
-
-
-
     }
-    public void changeDirection(){
-        velX = - velX;
-        velY = - velY;
-    }
+
 
 }

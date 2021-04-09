@@ -1,10 +1,9 @@
-package Objects;
+package levels;
 
 import core.GameObject;
 import core.ID;
 import core.ObjectHandler;
 import javafx.geometry.Point2D;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 
 public class Obstacle extends GameObject {
@@ -16,24 +15,20 @@ public class Obstacle extends GameObject {
         this.setImage(img);
         width = (int) img.getWidth();
         height = (int) img.getHeight();
+        this.setId(ID.Barrier);
     }
 
     @Override
     public void tick() {
-
     }
 
     @Override
     public void collisionCode(ID id, GameObject object) {
         if(id == ID.Player || id == ID.BasicEnemy || id == ID.SingleFireEnemy || id == ID.BossEnemy){
-            System.out.println("Collide");
             barrier(object);
-        }
-
-        if(id == ID.Bullet || id == ID.EnemyBullet){
+        }else if(id == ID.Bullet || id == ID.EnemyBullet){
             handler.removeObject(object);
         }
-
     }
 
 
@@ -55,8 +50,6 @@ public class Obstacle extends GameObject {
         else if (!this.getBounds().intersects(object.bStepY())) {
 
             //object.setPosition(new Point2D(object.getPosition().getX(), object.getPosition().getY() - object.getVelY()));
-
-            System.out.println("\nThese:");
 
             while(this.getBounds().intersects(object.getBounds())){
                 object.setPosition(new Point2D(object.getPosition().getX(),

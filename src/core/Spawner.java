@@ -1,6 +1,8 @@
 package core;
 
 import Objects.*;
+import levels.Loader;
+import levels.Obstacle;
 
 /** A placeholder spawner class. At the moment, does basically nothing */
 public class Spawner {
@@ -17,19 +19,17 @@ public class Spawner {
     public void spawnPlayer(int x, int y){
         handler.addObject(new Player(x, y, handler));
         camera.findTarget();
+        HUD.setPlayer(handler.findPlayer());
     }
 
     public void spawnBasicEnemy(int x, int y){
         handler.addObject(new BasicEnemy(x, y, handler));
-
+        Loader.enemyCount++;
     }
 
     public void spawnSingleEnemy(int x, int y){
         handler.addObject(new SingleFireEnemy(x,y,handler));
-    }
-
-    public void spawnHealth(int x, int y){
-        handler.addObject(new Health(x, y, handler));
+        Loader.enemyCount++;
     }
 
     public void spawnObstacle(int x, int y){
@@ -39,14 +39,8 @@ public class Spawner {
 
     public void spawnBossEnemy(int x, int y){
         handler.addObject(new BossEnemy(x,y,handler));
+        Loader.enemyCount++;
     }
-
-
-
-
-    public void tick(){
-    }
-
 
 
 }

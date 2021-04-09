@@ -1,4 +1,4 @@
-package core;
+package Menus;
 
 import Menus.Launcher;
 import javafx.application.Application;

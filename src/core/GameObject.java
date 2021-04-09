@@ -49,6 +49,48 @@ public abstract class GameObject {
     }
 
 
+
+
+    // --- Code for collision handling --- //
+
+    public Rectangle2D bStepX(){
+        return new Rectangle2D(position.getX()-velX, position.getY(), width, height);
+    }
+
+    public Rectangle2D bStepY(){
+        return new Rectangle2D(position.getX(), position.getY()-velY, width, height);
+    }
+
+
+    /**Barrier code, prevents objects from overlapping with one another*/
+    public void barrier(GameObject object){
+        if (!this.getBounds().intersects(object.bStepX()))
+            object.setPosition(new Point2D(object.getPosition().getX() - object.getVelX(), object.getPosition().getY()));
+        else if (!this.getBounds().intersects(object.bStepY()))
+            object.setPosition(new Point2D(object.getPosition().getX(), object.getPosition().getY() - object.getVelY()));
+    }
+
+    public void nonStaticBarrier(GameObject object, GameObject object2){
+        if (!object2.getBounds().intersects(object.bStepX()))
+            object.setPosition(new Point2D(object.getPosition().getX() - object.getVelX(), object.getPosition().getY()));
+        else if (!object2.getBounds().intersects(object.bStepY()))
+            object.setPosition(new Point2D(object.getPosition().getX(), object.getPosition().getY() - object.getVelY()));
+
+        nonStaticBarrier2(object2, object);
+    }
+
+    private void nonStaticBarrier2(GameObject object, GameObject object2){
+        if (!object2.getBounds().intersects(object.bStepX()))
+            object.setPosition(new Point2D(object.getPosition().getX() - object.getVelX(), object.getPosition().getY()));
+        else if (!object2.getBounds().intersects(object.bStepY()))
+            object.setPosition(new Point2D(object.getPosition().getX(), object.getPosition().getY() - object.getVelY()));
+        else
+            object.setPosition(new Point2D(object.getPosition().getX() -object.getVelX(),
+                    object.getPosition().getY() - object.getVelY()));
+    }
+
+
+
     // --- Getters and setters --- //
     public void setId(ID id) {
         this.id = id;
@@ -97,22 +139,4 @@ public abstract class GameObject {
     public double getVelY() {
         return velY;
     }
-
-
-    public Rectangle2D bStepX(){
-        return new Rectangle2D(position.getX()-velX, position.getY(), width, height);
-    }
-
-    public Rectangle2D bStepY(){
-        return new Rectangle2D(position.getX(), position.getY()-velY, width, height);
-    }
-
-    /**Barrier code, prevents objects from overlapping with one another*/
-    public void barrier(GameObject object){
-        if (!this.getBounds().intersects(object.bStepX()))
-            object.setPosition(new Point2D(object.getPosition().getX() - object.getVelX(), object.getPosition().getY()));
-        else if (!this.getBounds().intersects(object.bStepY()))
-            object.setPosition(new Point2D(object.getPosition().getX(), object.getPosition().getY() - object.getVelY()));
-    }
-
 }
