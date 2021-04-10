@@ -3,12 +3,242 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="Menus.MenuCont"
-            prefHeight="400.0" prefWidth="600.0">
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.Font?>
+<GridPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          fx:controller="Menus.MenuCont"
+          prefWidth="1000" prefHeight="600" alignment="CENTER" vgap="10" hgap="10" >
+    <Text text = "High Score" GridPane.columnIndex="4" GridPane.rowIndex="0" GridPane.columnSpan="2" >
+        <font>
+            <Font name = "Arial Bold" size="50"/>
+        </font>
+    </Text>
+
+    <Text text="1." GridPane.rowIndex="2" GridPane.columnIndex="3">
+        <font>
+            <Font size="15" >
+
+            </Font>
+        </font>
+    </Text>
+    <Text text="2." GridPane.rowIndex="3" GridPane.columnIndex="3">
+        <font>
+            <Font size="15" >
+
+            </Font>
+        </font>
+    </Text>
+    <Text text="3." GridPane.rowIndex="4" GridPane.columnIndex="3">
+        <font>
+            <Font size="15" >
+
+            </Font>
+        </font>
+    </Text>
+    <Text text="4." GridPane.rowIndex="5" GridPane.columnIndex="3">
+        <font>
+            <Font size="15" >
+
+            </Font>
+        </font>
+    </Text>
+    <Text text="5." GridPane.rowIndex="6" GridPane.columnIndex="3">
+        <font>
+            <Font size="15" >
+
+            </Font>
+        </font>
+    </Text>
+    <Text text="6." GridPane.rowIndex="7" GridPane.columnIndex="3">
+        <font>
+            <Font size="15" >
+
+            </Font>
+        </font>
+    </Text>
+    <Text text="7." GridPane.rowIndex="8" GridPane.columnIndex="3">
+        <font>
+            <Font size="15" >
+
+            </Font>
+        </font>
+    </Text>
+    <Text text="8." GridPane.rowIndex="9" GridPane.columnIndex="3">
+        <font>
+            <Font size="15" >
+
+            </Font>
+        </font>
+    </Text>
+    <Text text="9." GridPane.rowIndex="10" GridPane.columnIndex="3">
+        <font>
+            <Font size="15" >
+
+            </Font>
+        </font>
+    </Text>
+    <Text text="10." GridPane.rowIndex="11" GridPane.columnIndex="3">
+        <font>
+            <Font size="15" >
+
+            </Font>
+        </font>
+    </Text>
+
+
+    <Label text="Name" GridPane.rowIndex="1" GridPane.columnIndex="4"  prefWidth="100" maxWidth="100">
+        <font>
+            <Font size="25">
+            </Font>
+        </font>
+    </Label>
+    <Text  GridPane.rowIndex="2" GridPane.columnIndex="4" fx:id="name1" >
+        <font>
+            <Font size="20">
+            </Font>
+        </font>
+    </Text>
+    <Text GridPane.rowIndex="3" GridPane.columnIndex="4" fx:id="name2">
+        <font>
+            <Font size="20">
+            </Font>
+        </font>
+    </Text>
+    <Text GridPane.rowIndex="4" GridPane.columnIndex="4" fx:id="name3">
+        <font>
+            <Font size="20">
+
+            </Font>
+        </font>
+    </Text>
+    <Text GridPane.rowIndex="5" GridPane.columnIndex="4" fx:id="name4">
+        <font>
+            <Font size="20">
+
+            </Font>
+        </font>
+    </Text>
+    <Text GridPane.rowIndex="6" GridPane.columnIndex="4" fx:id="name5">
+        <font>
+            <Font size="20">
+
+            </Font>
+        </font>
+    </Text>
+    <Text GridPane.rowIndex="7" GridPane.columnIndex="4" fx:id="name6">
+        <font>
+            <Font size="20">
+
+            </Font>
+        </font>
+    </Text>
+    <Text GridPane.rowIndex="8" GridPane.columnIndex="4" fx:id="name7">
+        <font>
+            <Font size="20">
+
+            </Font>
+        </font>
+    </Text>
+    <Text GridPane.rowIndex="9" GridPane.columnIndex="4" fx:id="name8">
+        <font>
+            <Font size="20">
+
+            </Font>
+        </font>
+    </Text>
+    <Text GridPane.rowIndex="10" GridPane.columnIndex="4" fx:id="name9">
+        <font>
+            <Font size="20">
+
+            </Font>
+        </font>
+    </Text>
+    <Text GridPane.rowIndex="11" GridPane.columnIndex="4" fx:id="name10">
+        <font>
+            <Font size="20">
+
+            </Font>
+        </font>
+    </Text>
+
+
+
+
+
+    <Label text="Score" GridPane.rowIndex="1" GridPane.columnIndex="5" GridPane.columnSpan="5">
+        <font>
+            <Font size="25"/>
+        </font>
+    </Label>
+
+    <Text GridPane.rowIndex="2" GridPane.columnIndex="5" fx:id="score1">
+        <font>
+            <Font size="20">
+            </Font>
+        </font>
+    </Text>
+    <Text GridPane.rowIndex="3" GridPane.columnIndex="5" fx:id="score2">
+        <font>
+            <Font size="20">
+            </Font>
+        </font>
+    </Text>
+    <Text GridPane.rowIndex="4" GridPane.columnIndex="5" fx:id="score3">
+        <font>
+            <Font size="20">
+            </Font>
+        </font>
+    </Text>
+    <Text GridPane.rowIndex="5" GridPane.columnIndex="5" fx:id="score4">
+        <font>
+            <Font size="20">
+            </Font>
+        </font>
+    </Text>
+    <Text GridPane.rowIndex="6" GridPane.columnIndex="5" fx:id="score5">
+        <font>
+            <Font size="20">
+            </Font>
+        </font>
+    </Text>
+    <Text GridPane.rowIndex="7" GridPane.columnIndex="5" fx:id="score6">
+        <font>
+            <Font size="20">
+            </Font>
+        </font>
+    </Text>
+    <Text GridPane.rowIndex="8" GridPane.columnIndex="5" fx:id="score7">
+        <font>
+            <Font size="20">
+            </Font>
+        </font>
+    </Text>
+    <Text GridPane.rowIndex="9" GridPane.columnIndex="5" fx:id="score8">
+        <font>
+            <Font size="20">
+            </Font>
+        </font>
+    </Text>
+    <Text GridPane.rowIndex="10" GridPane.columnIndex="5" fx:id="score9">
+        <font>
+            <Font size="20">
+            </Font>
+        </font>
+    </Text>
+    <Text GridPane.rowIndex="11" GridPane.columnIndex="5" fx:id="score10">
+        <font>
+            <Font size="20">
+            </Font>
+        </font>
+    </Text>
+
+
+
 
     <Button text = "Return to Main Menu"
-            fx:id = "returnToMainMenu" onAction="#mainMenu"/>
+            fx:id = "returnToMainMenu" GridPane.rowIndex="13" GridPane.columnIndex="4"
+            GridPane.columnSpan="2" GridPane.halignment="CENTER" onAction="#mainMenu"/>
 
-</AnchorPane>
+</GridPane>
+

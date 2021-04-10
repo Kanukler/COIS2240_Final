@@ -6,41 +6,52 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import levels.Loader;
 
+import java.util.Objects;
+
 public class Launcher {
 
     private static ObjectHandler handler;
     private static GameLoop loop;
     public static Scene scene;
+    public static int scoreKeep;
 
     public Launcher(){
 
     }
 
     public void game() throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("Game.fxml"));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Game.fxml")));
         scene.setRoot(root);
 
         Player.PlayerInput.getInput().setScene(scene);
     }
 
     public void score() throws  Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("../Menus/HighScore.fxml"));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("../Menus/HighScore.fxml")));
         scene.setRoot(root);
     }
 
     public void mainMenu() throws  Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("../Menus/MainMenu.fxml"));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("../Menus/MainMenu.fxml")));
         scene.setRoot(root);
     }
 
-    public void gameEnd() throws Exception{
-        loop.stop();
+    public void gameOver() throws  Exception{
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("../Menus/GameOver.fxml")));
+        scene.setRoot(root);
 
-        handler.clearObjects();
+    }
+
+    public void gameEnd() throws Exception{
+        if(Launcher.scoreKeep == 0) {
+            Launcher.scoreKeep = PlayerStats.getScore();
+        }
+        loop.stop();
         PlayerStats.reset();
+        handler.clearObjects();
         Loader.enemyCount = 0;
 
-        mainMenu();
+        gameOver();
     }
 
     public static void setHandler(ObjectHandler handler) {

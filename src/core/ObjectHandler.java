@@ -30,14 +30,12 @@ public class ObjectHandler {
     public void tick() {
 
         for (int i = 0; i < object.size(); i++) {
-            try{
                 object.get(i).tick();
-                collision(object.get(i));
-            }
-            catch (Exception ignored){
-
-            }
         }
+        for (int i = 0; i < object.size(); i++) {
+                collision(object.get(i));
+        }
+        
 
         render();
     }

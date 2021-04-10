@@ -42,9 +42,10 @@ public class SingleFireEnemy extends GameObject {
             health = health - PlayerStats.getInstance().getDamage();
             handler.removeObject(gameObj);
             if(health <= 0){
-                handler.removeObject( this);
-                PlayerStats.setScore(PlayerStats.getScore() + 4);
                 Loader.enemyCount--;
+                System.out.println(Loader.enemyCount);
+                PlayerStats.setScore(PlayerStats.getScore() + 4);
+                handler.removeObject( this);
 
                 if(Loader.getTimer() == 0 && Loader.enemyCount == 0 || Math.random() < 0.01) {
                     handler.addObject(new PickUp((int) this.getPosition().getX(), (int) this.getPosition().getY(), handler));

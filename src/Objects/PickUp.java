@@ -35,8 +35,11 @@ public class PickUp extends GameObject {
             handler.removeObject(this);
         }
 
+        if(getImage() != null){
         height = (int) getImage().getHeight();
         width = (int) getImage().getWidth();
+        }
+
     }
 
     private void createHealth(){

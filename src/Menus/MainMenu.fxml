@@ -17,13 +17,13 @@
         </font>
     </Text>
 
-    <Button text = "Start Game" GridPane.rowIndex="1" GridPane.columnIndex="0"
+    <Button text = "START GAME" GridPane.rowIndex="1" GridPane.columnIndex="0" GridPane.halignment="CENTER" minWidth="100"
             fx:id = "startGame" onAction="#startGame"/>
 
-    <Button text = "High Scores" GridPane.rowIndex="2" GridPane.columnIndex="0"
+    <Button text = "HIGH SCORES" GridPane.rowIndex="2" GridPane.columnIndex="0" GridPane.halignment="CENTER" minWidth="100"
             fx:id = "scoreBoard" onAction="#scoreBoard"/>
 
-    <Button text = "Quit" GridPane.rowIndex="3" GridPane.columnIndex="0"
+    <Button text = "QUIT" GridPane.rowIndex="3" GridPane.columnIndex="0" GridPane.halignment="CENTER" minWidth="100"
             onAction="#endGame"/>
 
 </GridPane>

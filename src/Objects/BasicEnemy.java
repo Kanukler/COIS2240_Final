@@ -27,7 +27,6 @@ public class BasicEnemy extends GameObject{
 
     @Override
     public void tick() {
-
         move();
         position = new Point2D(position.getX() + velX, position.getY() + velY);
 
@@ -40,9 +39,10 @@ public class BasicEnemy extends GameObject{
             handler.removeObject(gameObj);
             health = health - PlayerStats.getInstance().getDamage();
             if(health <= 0){
-                handler.removeObject( this);
-                PlayerStats.setScore(PlayerStats.getScore() + 2);
                 Loader.enemyCount--;
+                System.out.println(Loader.enemyCount);
+                PlayerStats.setScore(PlayerStats.getScore() + 2);
+                handler.removeObject( this);
 
                 if(Loader.getTimer() == 0 && Loader.enemyCount == 0 || Math.random() < 0.01) {
                     handler.addObject(new PickUp((int) this.getPosition().getX(), (int) this.getPosition().getY(), handler));
