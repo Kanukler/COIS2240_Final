@@ -4,6 +4,8 @@ import core.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import levels.Loader;
 
 import java.util.Objects;
@@ -29,6 +31,12 @@ public class Launcher {
     public void score() throws  Exception{
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("../Menus/HighScore.fxml")));
         scene.setRoot(root);
+        if(!DBHandler.isDbExists()){
+            Alert warning = new Alert(Alert.AlertType.WARNING,
+                    "The database directory path is missing or incorrect." +
+                            "\n To add a directory, check the method: Menus > DBHandler > connectToDataBase", ButtonType.CLOSE );
+            warning.show();
+        }
     }
 
     public void mainMenu() throws  Exception{

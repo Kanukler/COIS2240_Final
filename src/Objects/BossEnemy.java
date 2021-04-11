@@ -56,7 +56,6 @@ public class BossEnemy extends GameObject {
             handler.removeObject(gameObj);//remove the bullet
             if(health <= 0){
                 Loader.enemyCount--;
-                System.out.println(Loader.enemyCount);
                 PlayerStats.setScore(PlayerStats.getScore() + 200);
                 handler.removeObject( this);//Boss is dead remove it from the game
 

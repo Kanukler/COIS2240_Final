@@ -1,5 +1,6 @@
 package levels;
 
+import Menus.Launcher;
 import core.*;
 
 public class Loader {
@@ -44,6 +45,7 @@ public class Loader {
 
 
     public void loadFirst(){
+        Launcher.scoreKeep = 0;
         level = 1;
         enemyCount = 0;
         levelTime = baseLevelTime;

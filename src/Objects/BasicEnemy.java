@@ -40,7 +40,6 @@ public class BasicEnemy extends GameObject{
             health = health - PlayerStats.getInstance().getDamage();
             if(health <= 0){
                 Loader.enemyCount--;
-                System.out.println(Loader.enemyCount);
                 PlayerStats.setScore(PlayerStats.getScore() + 2);
                 handler.removeObject( this);
 

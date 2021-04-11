@@ -5,7 +5,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 
 
@@ -103,10 +102,9 @@ public class MenuCont {
         if(DBHandler.validateName(n)){
             name.setDisable(true);
             submitScore.setDisable(true);
-            dbHandler.createTable();
-            dbHandler.retrieveTable();
-            dbHandler.deleteDB();
-            //dbHandler.insertDB(n, Launcher.scoreKeep);
+
+            dbHandler.onSubmit(n);
+
         }else{
             Alert warning = new Alert(Alert.AlertType.WARNING,
                     "Must be exactly three letters and/or numbers!", ButtonType.CLOSE );
@@ -126,10 +124,9 @@ public class MenuCont {
         score.setText(rScore);
         }
 
-        dbHandler.createTable();
-        dbHandler.retrieveTable();
+        dbHandler.onInit();
 
-        if(name10 != null && dbHandler.scores != null) {
+        if(name10 != null && !dbHandler.scores.isEmpty()) {
             try {
                 name1.setText(dbHandler.scores.get(0).getName());
                 score1.setText(String.format("%07d", dbHandler.scores.get(0).getScore()));

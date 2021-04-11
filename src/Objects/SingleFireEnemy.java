@@ -43,7 +43,6 @@ public class SingleFireEnemy extends GameObject {
             handler.removeObject(gameObj);
             if(health <= 0){
                 Loader.enemyCount--;
-                System.out.println(Loader.enemyCount);
                 PlayerStats.setScore(PlayerStats.getScore() + 4);
                 handler.removeObject( this);
 
